@@ -12,7 +12,6 @@ public class AIPlayer implements Player {
 	private ArrayList<String> moveList;
 	
 	private Board currentBoard;
-	private int currentScore;
 	
 	public AIPlayer() {
 		moveList = new ArrayList<String>();
@@ -74,7 +73,7 @@ public class AIPlayer implements Player {
 		String nextMove = null;
 		
 		for (Board firstChild : firstChildren) {
-			int score = alphaBeta(firstChild, SEARCH_DEPTH, INFINITY, -INFINITY, true);
+			int score = alphaBeta(firstChild, SEARCH_DEPTH-1, INFINITY, -INFINITY, true);
 			if (score > bestScore) {
 				bestScore = firstChild.getValue();
 				nextMove = firstChild.directionPushed;
