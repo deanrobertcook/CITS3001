@@ -1,6 +1,8 @@
 package player;
 
+import game.Board;
+
 public interface Player {
 	public String askForMove();
-	public void presentBoard(int[][] boardState);
+	public void presentBoard(Board board);
 }

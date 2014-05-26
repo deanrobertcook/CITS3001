@@ -1,5 +1,7 @@
 package player;
 
+import game.Board;
+
 import java.util.ArrayList;
 
 import utility.UserInputReader;
@@ -30,12 +32,7 @@ public class HumanPlayer implements Player {
 	}
 
 	@Override
-	public void presentBoard(int[][] boardState) {
-		for (int i = 0; i < boardState.length; i++) {
-			for (int j = 0; j < boardState[i].length; j++) {
-				System.out.print(boardState[i][j] + "\t");
-			}
-			System.out.println();
-		}
+	public void presentBoard(Board board) {
+		board.printOutBoardState();
 	}
 }
