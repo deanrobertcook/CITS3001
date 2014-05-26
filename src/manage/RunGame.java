@@ -25,7 +25,7 @@ public class RunGame {
 		ai.presentBoard(mainBoard.board);
 		
 		RunTimer runner = new RunTimer();
-		System.out.println(ai.alphaBeta(mainBoard, 6, -INFINITY, INFINITY, true));
+		System.out.println(ai.alphaBeta(mainBoard, 12, -INFINITY, INFINITY, true));
 		System.out.println(runner.lap());		
 		
 		/*
