@@ -7,7 +7,7 @@ import utility.ObjectCloner;
 public class AIPlayer implements Player {
 
 	private static final int INFINITY = 1000000;
-	private static final int SEARCH_DEPTH = 20;
+	private static final int SEARCH_DEPTH = 6;
 	
 	private ArrayList<String> moveList;
 	
@@ -79,7 +79,6 @@ public class AIPlayer implements Player {
 				nextMove = firstChild.directionPushed;
 			}
 		}
-		
 		return nextMove;
 	}
 
@@ -87,6 +86,4 @@ public class AIPlayer implements Player {
 	public void presentBoard(Board board) {
 		this.currentBoard = board;
 	}
-
-
 }

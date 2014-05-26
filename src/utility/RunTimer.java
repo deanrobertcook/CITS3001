@@ -13,8 +13,8 @@ public class RunTimer {
 		this.start = System.currentTimeMillis();
 	}
 
-	public String lap() {
+	public long lap() {
 		long end = System.currentTimeMillis();
-		return Long.toString(end-start) + " milliseconds";
+		return end-start;
 	}
 }

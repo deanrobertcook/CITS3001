@@ -1,34 +1,36 @@
 package manage;
 
+import java.util.ArrayList;
+import java.util.concurrent.LinkedBlockingQueue;
+
 import player.AIPlayer;
 import player.HumanPlayer;
 import utility.RunTimer;
+import utility.Scorer;
 import game.Board;
 import game.GameLoader;
 
-public class RunGame {
-	
-	private static int INFINITY = 1000000;
-	
+public class RunGame {	
 	public static void main(String[] args) {
 		GameLoader loader = new GameLoader("ThreesInput.txt");
 		
 		Board mainBoard = new Board(loader.getGameBoardFromFile(), loader.getGameSequenceFromFile());
 		//HumanPlayer player = new HumanPlayer();
+		AIPlayer player = new AIPlayer();	
 		
-		AIPlayer ai = new AIPlayer();	
+		Scorer scorer = new Scorer("outputFile.txt");
+		ArrayList<String> moves = new ArrayList<String>();
+		
+		RunTimer timer = new RunTimer();
 		
 		while (!mainBoard.gameFinished()) {
-			System.out.println();
+			player.presentBoard(mainBoard);
 			
-			ai.presentBoard(mainBoard);
+			String playerMove = player.askForMove();
+			moves.add(playerMove);
 			
-			String aiMove = ai.askForMove();
-			System.out.println("AI decides to move: " + aiMove);
-			mainBoard.play(aiMove);
-			
-			mainBoard.printOutBoardState();
+			mainBoard.play(playerMove);
 		}
-		System.out.println("Game Over! Your score was: " + mainBoard.getValue());
+		scorer.saveStatsToFile(mainBoard.getValue(), moves, timer.lap());
 	}
 }

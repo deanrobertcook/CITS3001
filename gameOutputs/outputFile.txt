@@ -1,0 +1,4 @@
+Score: 338, time: 19011 milliseconds, number of moves: 34
+
+
+DDDDDLDDDLDDDDLDDDDDDLDDDDDLDDDLD

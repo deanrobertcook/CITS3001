@@ -4,7 +4,7 @@ import random
 #this is the output file name
 filename = "ThreesInput.txt"
 #this is the total number of pieces
-noOfPieces = 200
+noOfPieces = 20000
 #these are the proportions of 1, 2, 3, 6, 12, etc.
 #the proportions are summed and rounded, so the number of pieces returned won't always be exact
 #the easiest way to make it exact is for proportions to contain integers that sum to noOfPieces
