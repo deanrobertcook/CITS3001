@@ -19,9 +19,14 @@ public class RunGame {
 		AIPlayer ai = new AIPlayer();	
 		
 		while (!mainBoard.gameFinished()) {
-			ai.presentBoard(mainBoard);
-			mainBoard.play(ai.askForMove());
 			System.out.println();
+			
+			ai.presentBoard(mainBoard);
+			
+			String aiMove = ai.askForMove();
+			System.out.println("AI decides to move: " + aiMove);
+			mainBoard.play(aiMove);
+			
 			mainBoard.printOutBoardState();
 		}
 		System.out.println("Game Over! Your score was: " + mainBoard.getValue());

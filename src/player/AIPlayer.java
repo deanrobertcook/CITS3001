@@ -7,7 +7,7 @@ import utility.ObjectCloner;
 public class AIPlayer implements Player {
 
 	private static final int INFINITY = 1000000;
-	private static final int SEARCH_DEPTH = 6;
+	private static final int SEARCH_DEPTH = 20;
 	
 	private ArrayList<String> moveList;
 	
