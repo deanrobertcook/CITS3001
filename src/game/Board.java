@@ -8,6 +8,7 @@ public class Board implements Serializable {
 
 	public int[][] board; // board refers to the 4x4 board used in the game
 	private LinkedBlockingQueue<String> gameSequence;
+	public String directionPushed;
 
 	private boolean gameRunning;
 	private boolean[] columnMoved;
@@ -33,6 +34,7 @@ public class Board implements Serializable {
 	// to function properly.
 	public boolean pushEdge(String direction) {
 
+		this.directionPushed = direction;
 		boolean legalMove = false;
 
 		setMovedFalse(columnMoved);
@@ -211,14 +213,14 @@ public class Board implements Serializable {
 
 	// Add a tile to the board. Returns true if a legal move was made, returns
 	// false if an illegal move was made
-	public boolean addTile(String direction, int[][] board, int nextTile) {
+	public boolean addTile(int nextTile) {
 
 		boolean legalMoveMade = true;
 		int lowValue = 10000000;
 		int lowColumn = 0;
 		boolean moved = false;
 
-		switch (direction) {
+		switch (this.directionPushed) {
 
 		case "U":
 			for (int i = 0; i < 4; i++) {
@@ -372,7 +374,7 @@ public class Board implements Serializable {
 
 		if (pushEdge(direction)) {
 
-			addTile(direction, board, getNextSeqence());
+			addTile(getNextSeqence());
 
 		} else {
 			gameRunning = false;
@@ -406,12 +408,23 @@ public class Board implements Serializable {
 		return (peek != null) ? Integer.parseInt(peek) : 0;
 	}
 
-	public int getValue(int[][] inBoard) {
+	public int getValue() {
 
 		int value = 0;
-		for (int i = 0; i < inBoard.length; i++) {
-			for (int j = 0; j < inBoard.length; j++) {
-				value = value + inBoard[i][j];
+		for (int i = 0; i < this.board.length; i++) {
+			for (int j = 0; j < this.board.length; j++) {
+
+				int tileValue = this.board[i][j];
+				if (tileValue == 1 || tileValue == 2) {
+					value++;
+				}
+				if (tileValue > 2) {
+					int tempVal;
+					tempVal = (int)(Math.log(tileValue/3)/Math.log(2));
+					tempVal = tempVal + 1;
+					tempVal = (int)Math.pow(3, tempVal);
+					value = value + tempVal;
+				}
 			}
 		}
 		return value;

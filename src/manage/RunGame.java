@@ -4,10 +4,16 @@ import java.util.ArrayList;
 
 import player.AIPlayer;
 import player.HumanPlayer;
+import utility.RunTimer;
 import game.Board;
 import game.GameLoader;
 
+
+
 public class RunGame {
+	
+	private static int INFINITY = 1000000;
+	
 	public static void main(String[] args) {
 		GameLoader loader = new GameLoader("ThreesInput.txt");
 		
@@ -18,9 +24,14 @@ public class RunGame {
 		AIPlayer ai = new AIPlayer(mainBoard);	
 		ai.presentBoard(mainBoard.board);
 		
+		RunTimer runner = new RunTimer();
+		System.out.println(ai.alphaBeta(mainBoard, 6, -INFINITY, INFINITY, true));
+		System.out.println(runner.lap());		
+		
+		/*
 		ArrayList<Board> test = new ArrayList<Board>();
 
-		test = ai.creatChildren(mainBoard);
+		test = ai.createChildren(mainBoard);
 		
 		
 		System.out.println(test.toString());
@@ -31,6 +42,7 @@ public class RunGame {
 			System.out.println();
 			
 		}		
+		*/
 		//Testing complete
 		
 		

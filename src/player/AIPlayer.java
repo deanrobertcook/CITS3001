@@ -21,8 +21,57 @@ public class AIPlayer implements Player {
 	}
 
 	
-	//Need to test cloning for gameSequence 
-	public ArrayList<Board> creatChildren(Board in) {
+	public int alphaBeta(Board board, int depth, int alpha, int beta, boolean isPlayerHuman){
+		
+		
+		
+		int bestScore = 0;		
+		ArrayList<Board> children = createChildren(board);
+		
+		if((children.isEmpty()) || (depth == 0)){
+			
+			bestScore = evaluationFunction(board);
+			return bestScore;
+		}
+		
+		if(isPlayerHuman == true){
+			
+			for(Board child : children){
+				
+				System.out.println("Moved " + child.directionPushed);
+				child.printOutBoardState();
+				System.out.println();
+				alpha = Math.max(alpha, alphaBeta(child, depth - 1, alpha, beta, false));
+				if(beta <= alpha){
+					
+					System.out.println("MAX PRUNE");
+					break;
+				}
+				
+			}
+			
+			return alpha;
+		}else{
+					
+			System.out.println(board.peekNextSequence());
+			board.addTile(board.getNextSeqence());
+			System.out.println("Tile added " + board.directionPushed);
+			board.printOutBoardState();
+			System.out.println();
+			
+				beta = Math.min(beta, alphaBeta(board, depth - 1, alpha, beta, true));
+				if(beta <= alpha){
+					
+					System.out.println("MIN PRUNE");
+				}
+				
+			
+			return beta;			
+		}
+
+	}
+	
+	public ArrayList<Board> createChildren(Board in) {
 
 		ArrayList<Board> children = new ArrayList<Board>();
 
@@ -32,8 +81,6 @@ public class AIPlayer implements Player {
 
 			if (newBoard.pushEdge(direction)) {
 
-				newBoard.printOutBoardState();
-				System.out.println();
 				children.add(newBoard);
 
 			}
@@ -44,6 +91,12 @@ public class AIPlayer implements Player {
 
 	}
 
+	public int evaluationFunction(Board in){		
+		
+		return in.getValue();
+		
+	}
+	
 	@Override
 	public String askForMove() {
 		// TODO Auto-generated method stub
@@ -61,5 +114,6 @@ public class AIPlayer implements Player {
 		}
 
 	}
+
 
 }
