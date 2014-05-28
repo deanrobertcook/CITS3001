@@ -2,7 +2,7 @@ import random
 
 
 #this is the output file name
-filename = "ThreesInput.txt"
+filename = "input.txt"
 #this is the total number of pieces
 noOfPieces = 20000
 #these are the proportions of 1, 2, 3, 6, 12, etc.

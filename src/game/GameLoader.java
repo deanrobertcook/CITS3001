@@ -70,7 +70,8 @@ public class GameLoader {
 			while ((line = inputStream.readLine()) != null) {
 				if (lineNo >= 8) {
 					String nextSequence = "";
-
+					
+					//System.out.println("LAST CHARACTER OF LINE " + );
 					for (int i = 0; i < line.length(); i++) {
 						if (line.charAt(i) == ' ') {
 							inputSequence.add(nextSequence);
@@ -79,6 +80,7 @@ public class GameLoader {
 							nextSequence += line.charAt(i);
 						}
 					}
+					inputSequence.add(nextSequence);
 				}
 				lineNo++;
 			}

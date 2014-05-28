@@ -14,14 +14,14 @@ import game.GameLoader;
 
 public class RunGame {	
 	public static void main(String[] args) {
-		GameLoader loader = new GameLoader("B1.txt");
+		GameLoader loader = new GameLoader("input.txt");
 		
 		Board mainBoard = new Board(loader.getGameBoardFromFile(), loader.getGameSequenceFromFile());
 //		HumanPlayer player = new HumanPlayer();
-		AlphaBetaPlayer player = new AlphaBetaPlayer();	
+//		AlphaBetaPlayer player = new AlphaBetaPlayer();	
 //		MiniMaxPlayer player = new MiniMaxPlayer();
 //		AStarPlayer player = new AStarPlayer();
-//		GreedyPlayer player = new GreedyPlayer();
+		GreedyPlayer player = new GreedyPlayer();
 		
 		ArrayList<String> moves = new ArrayList<String>();
 		

@@ -161,7 +161,7 @@ public class Board implements Serializable {
 		for (int i = 0; i < oneArray.size(); i++) {
 			int one = oneArray.get(i).intValue();
 			int two = twoArray.get(i).intValue();
-			if ( one <= two && (one != 0 && two != 0)) {
+			if (one < two) {
 				return true;
 			} else if (one > two) {
 				return false;
@@ -182,7 +182,6 @@ public class Board implements Serializable {
 	public boolean addTile() {
 		int nextTile = this.getNextSeqence();
 		boolean legalMoveMade = true;
-		//int lowValue = 10000000;
 		ArrayList<Integer> lowestTuple = new ArrayList<Integer>();
 			lowestTuple.add(1000000);
 			lowestTuple.add(1000000);
@@ -196,20 +195,10 @@ public class Board implements Serializable {
 			for (int i = 0; i < 4; i++) {
 				if (this.columnMoved[i] == true) {
 					moved = true;
-//					String presentValue = "";
 					ArrayList<Integer> presentTuple = new ArrayList<Integer>();
 					for (int j = 0; j < 4; j++) {
-						//presentValue = this.board[j][i] + presentValue;
 						presentTuple.add(0, this.board[j][i]);
 					}
-					//System.out.println(presentValue);
-					//int presentInt = Integer.parseInt(presentValue);
-//					System.out.println(presentTuple.toString());
-//					if (presentInt < lowValue) {
-//						lowValue = presentInt;
-//						lowColumn = i;
-//					}
-//					System.out.println(presentTuple.toString());
 					if (this.oneLessThanTwo(presentTuple, lowestTuple)) {
 						lowestTuple = presentTuple;
 						lowColumn = i;
@@ -221,21 +210,13 @@ public class Board implements Serializable {
 			}
 			break;
 		case "D":
-			for (int i = 0; i < 4; i++) {
+			for (int i = 3; i >= 0; i--) {
 				if (this.columnMoved[i] == true) {
 					moved = true;
-//					String presentValue = "";
 					ArrayList<Integer> presentTuple = new ArrayList<Integer>();
 					for (int j = 0; j < 4; j++) {
 						presentTuple.add(this.board[j][i]);
 					}
-					//System.out.println(presentValue);
-//					System.out.println(presentTuple.toString());
-//					int presentInt = Integer.parseInt(presentValue);
-//					if (presentInt <= lowValue) {
-//						lowValue = presentInt;
-//						lowColumn = i;
-//					}
 					if (this.oneLessThanTwo(presentTuple, lowestTuple)) {
 						lowestTuple = presentTuple;
 						lowColumn = i;
@@ -247,22 +228,13 @@ public class Board implements Serializable {
 			}
 			break;
 		case "L":
-			for (int i = 0; i < 4; i++) {
+			for (int i = 3; i >= 0; i--) {
 				if (this.rowMoved[i] == true) {
 					moved = true;
-//					String presentValue = "";
 					ArrayList<Integer> presentTuple = new ArrayList<Integer>();
 					for (int j = 0; j < 4; j++) {
-						//presentTuple.add(this.board[i][j]);
 						presentTuple.add(0, this.board[i][j]);
 					}
-//					System.out.println(presentValue);
-//					int presentInt = Integer.parseInt(presentValue);
-//					if (presentInt <= lowValue) {
-//						lowValue = presentInt;
-//						lowColumn = i;
-//					}
-					System.out.println(presentTuple.toString());
 					if (this.oneLessThanTwo(presentTuple, lowestTuple)) {
 						lowestTuple = presentTuple;
 						lowColumn = i;
@@ -278,18 +250,10 @@ public class Board implements Serializable {
 			for (int i = 0; i < 4; i++) {
 				if (this.rowMoved[i] == true) {
 					moved = true;
-//					String presentValue = "";
 					ArrayList<Integer> presentTuple = new ArrayList<Integer>();
 					for (int j = 0; j < 4; j++) {
 						presentTuple.add(this.board[i][j]);
 					}
-					//System.out.println(presentValue);
-//					int presentInt = Integer.parseInt(presentValue);
-//					if (presentInt < lowValue) {
-//						lowValue = presentInt;
-//						lowColumn = i;
-//					}
-//					System.out.println(presentTuple.toString());
 					if (this.oneLessThanTwo(presentTuple, lowestTuple)) {
 						lowestTuple = presentTuple;
 						lowColumn = i;
@@ -301,10 +265,6 @@ public class Board implements Serializable {
 			}
 			break;
 		}
-//		if (lowValue == 10000000) {
-//			System.out.println("Illegal move attempted!");
-//			legalMoveMade = false;
-//		}
 		if (arrayNotChanged(lowestTuple)) {
 			legalMoveMade = false;
 		}

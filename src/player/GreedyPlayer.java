@@ -7,7 +7,7 @@ import game.Board;
 
 public class GreedyPlayer extends AIPlayer {
 
-	private static int DEPTH = 6;
+	private static int DEPTH = 4;
 	
 	private int greedySearch(Board thoughtBoard, int depth) {
 		int bestScore = 0;
