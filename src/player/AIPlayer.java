@@ -1,54 +1,31 @@
 package player;
 
-import game.Board;
 import java.util.ArrayList;
+
 import utility.ObjectCloner;
+import game.Board;
 
-public class AIPlayer implements Player {
+public abstract class AIPlayer implements Player {
 
-	private static final int INFINITY = 1000000;
-	private static final int SEARCH_DEPTH = 6;
+	protected ArrayList<String> moveList;
+	protected Board currentBoard;
 	
-	private ArrayList<String> moveList;
-	
-	private Board currentBoard;
-	
-	public AIPlayer() {
+	public AIPlayer() {		
 		moveList = new ArrayList<String>();
 			moveList.add("U");
 			moveList.add("R");
 			moveList.add("L");
 			moveList.add("D");
 	}
-
-	private int alphaBeta(Board thoughtBoard, int depth, int alpha, int beta, boolean maximizingPlayer){
-		int bestScore = 0;		
-		ArrayList<Board> children = createChildren(thoughtBoard);
-		
-		if((children.isEmpty()) || (depth == 0)){
-			bestScore = evaluationFunction(thoughtBoard);
-			return bestScore;
-		}
-		
-		if(maximizingPlayer == true){
-			for(Board child : children){
-				alpha = Math.max(alpha, alphaBeta(child, depth - 1, alpha, beta, false));
-				if(beta <= alpha){
-					break;
-				}
-			}
-			
-			return alpha;
-		}else{
-			thoughtBoard.addTile(thoughtBoard.getNextSeqence());			
-			beta = Math.min(beta, alphaBeta(thoughtBoard, depth - 1, alpha, beta, true));				
-			
-			return beta;			
-		}
-
+	
+	protected abstract int runAlgorithm(Board thoughtBoard);
+	
+	protected int evaluationFunction(Board in){			
+		int value = in.getValue()*in.getEmptyCells() - in.calculateClusteringScore();
+		return value;
 	}
 	
-	private ArrayList<Board> createChildren(Board in) {
+	protected ArrayList<Board> createChildren(Board in) {
 		ArrayList<Board> children = new ArrayList<Board>();
 		
 		for (String direction : moveList) {
@@ -58,10 +35,6 @@ public class AIPlayer implements Player {
 			}
 		}
 		return children;
-	}
-
-	private int evaluationFunction(Board in){		
-		return in.getValue();
 	}
 	
 	@Override
@@ -73,9 +46,9 @@ public class AIPlayer implements Player {
 		String nextMove = null;
 		
 		for (Board firstChild : firstChildren) {
-			int score = alphaBeta(firstChild, SEARCH_DEPTH-1, INFINITY, -INFINITY, true);
+			int score = runAlgorithm(firstChild);
 			if (score > bestScore) {
-				bestScore = firstChild.getValue();
+				bestScore = evaluationFunction(firstChild);
 				nextMove = firstChild.directionPushed;
 			}
 		}
@@ -86,4 +59,5 @@ public class AIPlayer implements Player {
 	public void presentBoard(Board board) {
 		this.currentBoard = board;
 	}
+
 }

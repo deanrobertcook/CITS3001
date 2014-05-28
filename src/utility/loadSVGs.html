@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<span id="currentMove">0</span>
+	<button onclick="getSVG('previous', 'div1');">Previous</button>
+	<button onclick="getSVG('next', 'div1');">Next</button>
+	<div id="div1" style="display: block; height: 1000px;"></div>
+	
+	
+	<script type="text/javascript">
+		function getSVG(direction, id) {
+			var span = document.getElementById("currentMove");
+			svgNo = parseInt(span.innerHTML);
+			if (direction == "previous") {
+				svg = "X1_" + (svgNo - 1) + ".svg";
+				svgNo--;
+			} else {
+				svg = "X1_" + (svgNo + 1) + ".svg";
+				svgNo++;
+			}
+			
+			var element = document.getElementById(id);
+			element.innerHTML="";
+			var object = document.createElement("object");
+			object.type = "image/svg+xml";
+			object.data = svg;
+			element.appendChild(object);
+			span.innerHTML = svgNo;
+		}
+	</script>
+</body>
+</html>

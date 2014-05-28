@@ -1,13 +1,10 @@
 package utility;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Class Scorer records the moves taken, the time taken, and the
@@ -19,48 +16,55 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class Scorer {
 	public static final String OUTPUT_PATH = "gameOutputs/";
 	public static final int LINE_LENGTH = 40;
-	public File file;
+	public String outputText;
 
-	public Scorer(String gameOutputFileName) {
-		file = new File(OUTPUT_PATH + gameOutputFileName);
+	public Scorer(int score, ArrayList<String> moves, long time) {
+		prepareText(score, moves, time);
 	}
 
-	public void saveStatsToFile(int score, ArrayList<String> moves, long time) {
-	//public void saveStatsToFile(ArrayList<String> moves) {
+	private void prepareText(int score, ArrayList<String> moves, long time) {
+		this.outputText = "";
+		int lineNo = 1;
+
+		while (!moves.isEmpty()) {
+			if (lineNo == 1) {
+				this.outputText += "Score: " + score + 
+						", time: " + time + " milliseconds, number of moves: " + (moves.size()-1) + "\n";
+			}
+			
+			if (lineNo >= 3) {
+				int movesOutput = LINE_LENGTH;
+				if (moves.size() < LINE_LENGTH) {
+					movesOutput = moves.size();
+				}
+				for (int i = 0; i < movesOutput; i++) {
+					if (moves.get(0) != null) {
+						this.outputText += moves.get(0);
+					}
+					moves.remove(0);
+				}
+			}
+			this.outputText += '\n';
+			lineNo++;
+		}
+	}
+	
+	public void saveStatsToFile(String fileName) {
+		File file = new File(OUTPUT_PATH + fileName);
 		BufferedWriter outputStream;
 
 		try {
 			outputStream = new BufferedWriter(new PrintWriter(file));
-			
-			int lineNo = 1;
-
-			while (!moves.isEmpty()) {
-				if (lineNo == 1) {
-					outputStream.write("Score: " + score + 
-							", time: " + time + " milliseconds, number of moves: " + moves.size() + "\n");
-				}
-				
-				if (lineNo >= 3) {
-					int movesOutput = LINE_LENGTH;
-					if (moves.size() < LINE_LENGTH) {
-						movesOutput = moves.size();
-					}
-					for (int i = 0; i < movesOutput; i++) {
-						if (moves.get(0) != null) {
-							outputStream.write(moves.get(0));
-						}
-						moves.remove(0);
-					}
-				}
-				//System.out.println();
-				outputStream.write('\n');
-				lineNo++;
-			}
+			outputStream.write(this.outputText);
 			outputStream.close();
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void printStatsToScreen() {
+		System.out.println(this.outputText);
 	}
 }

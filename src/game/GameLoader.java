@@ -33,7 +33,7 @@ public class GameLoader {
 					String nextTile = "";
 
 					for (int i = 0; i < line.length(); i++) {
-						if (line.charAt(i) == ' ') {
+						if (line.charAt(i) == ' ' && line.charAt(i-1) != ' ') {
 							inputBoard[columnIndex][rowIndex] = Integer
 									.parseInt(nextTile);
 							rowIndex++;

@@ -1,6 +1,7 @@
 package game;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class Board implements Serializable {
@@ -45,7 +46,6 @@ public class Board implements Serializable {
 		setMovedFalse(rowMoved);
 
 		if (peekNextSequence() == 0) {
-			System.out.println("Out of Tiles!");
 			return false;
 		}
 
@@ -156,12 +156,38 @@ public class Board implements Serializable {
 		}
 		return legalMove;
 	}
+	
+	private boolean oneLessThanTwo(ArrayList<Integer> oneArray, ArrayList<Integer> twoArray) {
+		for (int i = 0; i < oneArray.size(); i++) {
+			int one = oneArray.get(i).intValue();
+			int two = twoArray.get(i).intValue();
+			if ( one <= two && (one != 0 && two != 0)) {
+				return true;
+			} else if (one > two) {
+				return false;
+			}
+		}
+		return false;
+	}
+	
+	private boolean arrayNotChanged(ArrayList<Integer> in) {		
+		for (Integer integer : in) {
+			if (integer.intValue() != 1000000) {
+				return false;
+			}
+		}
+		return true;
+	}
 
-	// Add a tile to the board. Returns true if a legal move was made, returns
-	// false if an illegal move was made
-	public boolean addTile(int nextTile) {
+	public boolean addTile() {
+		int nextTile = this.getNextSeqence();
 		boolean legalMoveMade = true;
-		int lowValue = 10000000;
+		//int lowValue = 10000000;
+		ArrayList<Integer> lowestTuple = new ArrayList<Integer>();
+			lowestTuple.add(1000000);
+			lowestTuple.add(1000000);
+			lowestTuple.add(1000000);
+			lowestTuple.add(1000000);
 		int lowColumn = 0;
 		boolean moved = false;
 
@@ -170,12 +196,22 @@ public class Board implements Serializable {
 			for (int i = 0; i < 4; i++) {
 				if (this.columnMoved[i] == true) {
 					moved = true;
-					int presentValue = 0;
+//					String presentValue = "";
+					ArrayList<Integer> presentTuple = new ArrayList<Integer>();
 					for (int j = 0; j < 4; j++) {
-						presentValue = presentValue + this.board[j][i];
+						//presentValue = this.board[j][i] + presentValue;
+						presentTuple.add(0, this.board[j][i]);
 					}
-					if (presentValue < lowValue) {
-						lowValue = presentValue;
+					//System.out.println(presentValue);
+					//int presentInt = Integer.parseInt(presentValue);
+//					System.out.println(presentTuple.toString());
+//					if (presentInt < lowValue) {
+//						lowValue = presentInt;
+//						lowColumn = i;
+//					}
+//					System.out.println(presentTuple.toString());
+					if (this.oneLessThanTwo(presentTuple, lowestTuple)) {
+						lowestTuple = presentTuple;
 						lowColumn = i;
 					}
 				}
@@ -188,12 +224,20 @@ public class Board implements Serializable {
 			for (int i = 0; i < 4; i++) {
 				if (this.columnMoved[i] == true) {
 					moved = true;
-					int presentValue = 0;
+//					String presentValue = "";
+					ArrayList<Integer> presentTuple = new ArrayList<Integer>();
 					for (int j = 0; j < 4; j++) {
-						presentValue = presentValue + this.board[j][i];
+						presentTuple.add(this.board[j][i]);
 					}
-					if (presentValue <= lowValue) {
-						lowValue = presentValue;
+					//System.out.println(presentValue);
+//					System.out.println(presentTuple.toString());
+//					int presentInt = Integer.parseInt(presentValue);
+//					if (presentInt <= lowValue) {
+//						lowValue = presentInt;
+//						lowColumn = i;
+//					}
+					if (this.oneLessThanTwo(presentTuple, lowestTuple)) {
+						lowestTuple = presentTuple;
 						lowColumn = i;
 					}
 				}
@@ -206,12 +250,21 @@ public class Board implements Serializable {
 			for (int i = 0; i < 4; i++) {
 				if (this.rowMoved[i] == true) {
 					moved = true;
-					int presentValue = 0;
+//					String presentValue = "";
+					ArrayList<Integer> presentTuple = new ArrayList<Integer>();
 					for (int j = 0; j < 4; j++) {
-						presentValue = presentValue + this.board[i][j];
+						//presentTuple.add(this.board[i][j]);
+						presentTuple.add(0, this.board[i][j]);
 					}
-					if (presentValue <= lowValue) {
-						lowValue = presentValue;
+//					System.out.println(presentValue);
+//					int presentInt = Integer.parseInt(presentValue);
+//					if (presentInt <= lowValue) {
+//						lowValue = presentInt;
+//						lowColumn = i;
+//					}
+					System.out.println(presentTuple.toString());
+					if (this.oneLessThanTwo(presentTuple, lowestTuple)) {
+						lowestTuple = presentTuple;
 						lowColumn = i;
 					}
 				}
@@ -225,12 +278,20 @@ public class Board implements Serializable {
 			for (int i = 0; i < 4; i++) {
 				if (this.rowMoved[i] == true) {
 					moved = true;
-					int presentValue = 0;
+//					String presentValue = "";
+					ArrayList<Integer> presentTuple = new ArrayList<Integer>();
 					for (int j = 0; j < 4; j++) {
-						presentValue = presentValue + this.board[i][j];
+						presentTuple.add(this.board[i][j]);
 					}
-					if (presentValue < lowValue) {
-						lowValue = presentValue;
+					//System.out.println(presentValue);
+//					int presentInt = Integer.parseInt(presentValue);
+//					if (presentInt < lowValue) {
+//						lowValue = presentInt;
+//						lowColumn = i;
+//					}
+//					System.out.println(presentTuple.toString());
+					if (this.oneLessThanTwo(presentTuple, lowestTuple)) {
+						lowestTuple = presentTuple;
 						lowColumn = i;
 					}
 				}
@@ -240,8 +301,11 @@ public class Board implements Serializable {
 			}
 			break;
 		}
-		if (lowValue == 10000000) {
-			System.out.println("Illegal move attempted!");
+//		if (lowValue == 10000000) {
+//			System.out.println("Illegal move attempted!");
+//			legalMoveMade = false;
+//		}
+		if (arrayNotChanged(lowestTuple)) {
 			legalMoveMade = false;
 		}
 		return legalMoveMade;
@@ -255,7 +319,7 @@ public class Board implements Serializable {
 
 	public void play(String direction) {
 		if (pushEdge(direction)) {
-			addTile(getNextSeqence());
+			addTile();
 		} else {
 			gameRunning = false;
 		}
@@ -309,4 +373,57 @@ public class Board implements Serializable {
 		}
 		return value;
 	}
+	
+	public int getEmptyCells(){
+		
+		int number = 0;
+		for (int i = 0; i < this.board.length; i++) {
+			for (int j = 0; j < this.board[i].length; j++) {
+				if(board[i][j] == 0){
+					number = number + 1;
+				}
+			}
+		
+		}
+		return number;
+	}
+
+	public int calculateClusteringScore() {
+        int clusteringScore=0;
+        
+        int[] neighbors = {-1,0,1};
+        
+        for(int i=0;i<board.length;++i) {
+            for(int j=0;j<board.length;++j) {
+                if(board[i][j]==0) {
+                    continue; 
+                }
+                
+                int numOfNeighbors=0;
+                int sum=0;
+                for(int k : neighbors) {
+                    int x=i+k;
+                    if(x<0 || x>=board.length) {
+                        continue;
+                    }
+                    for(int l : neighbors) {
+                        int y = j+l;
+                        if(y<0 || y>=board.length) {
+                            continue;
+                        }
+                        
+                        if(board[x][y]>0) {
+                            ++numOfNeighbors;
+                            sum+=Math.abs(board[i][j]-board[x][y]);
+                        }
+                        
+                    }
+                }
+                
+                clusteringScore+=sum/numOfNeighbors;
+            }
+        }
+        
+        return clusteringScore;
+    }
 }
